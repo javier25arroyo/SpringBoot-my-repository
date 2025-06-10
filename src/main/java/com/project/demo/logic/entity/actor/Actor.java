@@ -1,4 +1,4 @@
-package com.project.demo.logic.entity.actors;
+package com.project.demo.logic.entity.actor;
 
 import com.project.demo.logic.entity.movie.Movie;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class Actors {
+public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
