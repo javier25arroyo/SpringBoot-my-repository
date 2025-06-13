@@ -2,7 +2,7 @@ package com.project.demo.logic.entity.product;
 import com.project.demo.logic.entity.category.Category;
 import jakarta.persistence.*;
 
-@Table(name = "`product`")
+@Table(name = "product")
 @Entity
 public class Product {
     @Id
@@ -65,8 +65,16 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                ", category=" + category +
+                '}';
+    }
 }
-
-
-//id, nombre, descripción, precio, cantidad en stock y Categoría
-//Relacion de 1 producto a 1 categoria

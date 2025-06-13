@@ -1,10 +1,9 @@
-// Archivo: my-repository/src/main/java/com/project/demo/logic/entity/category/Category.java
 package com.project.demo.logic.entity.category;
 import com.project.demo.logic.entity.product.Product;
 import jakarta.persistence.*;
 import java.util.List;
 
-@Table(name = "`category`")
+@Table(name = "category")
 @Entity
 public class Category {
     @Id
@@ -47,6 +46,16 @@ public class Category {
 
     public void setProductos(List<Product> productos) {
         this.productos = productos;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", productos=" + productos +
+                '}';
     }
 }
 
