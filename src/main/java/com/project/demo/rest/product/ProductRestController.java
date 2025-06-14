@@ -43,26 +43,6 @@ public class ProductRestController {
         }
     }
 
-    @GetMapping("/category/{categoryId}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'USER')")
-    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable Long categoryId) {
-        Optional<Category> category = categoryRepository.findById(categoryId);
-        if (category.isPresent()) {
-            List<Product> products = productRepository.findByCategory(category.get());
-            return ResponseEntity.ok(products);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
-    @GetMapping("/search")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<Product>> searchProductsByName(@RequestParam String name) {
-        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
-        return ResponseEntity.ok(products);
-    }
-
 
     @PostMapping
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
@@ -205,23 +185,6 @@ public class ProductRestController {
         if (optionalProduct.isPresent()) {
             try {
                 productRepository.deleteById(id);
-                return ResponseEntity.noContent().build();
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
-    @DeleteMapping("/category/{categoryId}")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
-    public ResponseEntity<Void> deleteProductsByCategory(@PathVariable Long categoryId) {
-        Optional<Category> category = categoryRepository.findById(categoryId);
-        if (category.isPresent()) {
-            try {
-                productRepository.deleteByCategory(category.get());
                 return ResponseEntity.noContent().build();
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
