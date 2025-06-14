@@ -109,16 +109,4 @@ public class CategoryRestController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-    @DeleteMapping
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<Void> deleteAllCategories() {
-        try {
-            categoryRepository.deleteAll();
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-    }
 }
