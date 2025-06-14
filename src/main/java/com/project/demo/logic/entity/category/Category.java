@@ -1,4 +1,5 @@
 package com.project.demo.logic.entity.category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.demo.logic.entity.product.Product;
 import jakarta.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ public class Category {
     private String nombre;
     private String descripcion;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> productos;
 

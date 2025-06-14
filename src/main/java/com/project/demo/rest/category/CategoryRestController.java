@@ -20,14 +20,14 @@ public class CategoryRestController {
 
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'USER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Category>> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
         return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'USER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryRepository.findById(id);
 
@@ -39,7 +39,7 @@ public class CategoryRestController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         try {
             category.setId(null);
@@ -52,7 +52,7 @@ public class CategoryRestController {
 
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category categoryDetails) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
@@ -71,7 +71,7 @@ public class CategoryRestController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Category> patchCategory(@PathVariable Long id, @RequestBody Category categoryDetails) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
@@ -95,7 +95,7 @@ public class CategoryRestController {
 
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
@@ -103,7 +103,6 @@ public class CategoryRestController {
                 categoryRepository.deleteById(id);
                 return ResponseEntity.noContent().build();
             } catch (Exception e) {
-                // Puede fallar si hay productos asociados
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
         } else {
@@ -113,7 +112,7 @@ public class CategoryRestController {
 
 
     @DeleteMapping
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Void> deleteAllCategories() {
         try {
             categoryRepository.deleteAll();
