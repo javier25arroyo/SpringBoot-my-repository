@@ -4,7 +4,6 @@ import com.project.demo.logic.entity.product.Product;
 import com.project.demo.logic.entity.product.ProductRepository;
 import com.project.demo.logic.entity.category.Category;
 import com.project.demo.logic.entity.category.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,11 +16,14 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductRestController {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
+    public  ProductRestController(ProductRepository productRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
 
     @GetMapping
@@ -36,11 +38,8 @@ public class ProductRestController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Optional<Product> product = productRepository.findById(id);
-        if (product.isPresent()) {
-            return ResponseEntity.ok(product.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return product.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 
@@ -49,11 +48,9 @@ public class ProductRestController {
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         try {
             if (product.getCategory() != null && product.getCategory().getId() != null) {
-                Optional<Category> category = categoryRepository.findById(product.getCategory().getId());
-                if (!category.isPresent()) {
-                    return ResponseEntity.badRequest().build();
-                }
-                product.setCategory(category.get());
+                Category category = categoryRepository.findById(product.getCategory().getId())
+                        .orElseThrow(() -> new IllegalArgumentException("Categoría no válida"));
+                product.setCategory(category);
             }
             product.setId(null);
             if (product.getName() == null || product.getName().trim().isEmpty()) {
@@ -80,11 +77,9 @@ public class ProductRestController {
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
             if (productDetails.getCategory() != null && productDetails.getCategory().getId() != null) {
-                Optional<Category> category = categoryRepository.findById(productDetails.getCategory().getId());
-                if (!category.isPresent()) {
-                    return ResponseEntity.badRequest().build();
-                }
-                product.setCategory(category.get());
+                Category category = categoryRepository.findById(productDetails.getCategory().getId())
+                        .orElseThrow(() -> new IllegalArgumentException("Categoría no válida"));
+                product.setCategory(category);
             }
             if (productDetails.getName() == null || productDetails.getName().trim().isEmpty()) {
                 return ResponseEntity.badRequest().build();
@@ -138,11 +133,9 @@ public class ProductRestController {
                 product.setStock(productDetails.getStock());
             }
             if (productDetails.getCategory() != null && productDetails.getCategory().getId() != null) {
-                Optional<Category> category = categoryRepository.findById(productDetails.getCategory().getId());
-                if (!category.isPresent()) {
-                    return ResponseEntity.badRequest().build();
-                }
-                product.setCategory(category.get());
+                Category category = categoryRepository.findById(productDetails.getCategory().getId())
+                        .orElseThrow(() -> new IllegalArgumentException("Categoría no válida"));
+                product.setCategory(category);
             }
             try {
                 Product updatedProduct = productRepository.save(product);
@@ -181,16 +174,14 @@ public class ProductRestController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if (optionalProduct.isPresent()) {
+        if (!productRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
             try {
                 productRepository.deleteById(id);
                 return ResponseEntity.noContent().build();
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

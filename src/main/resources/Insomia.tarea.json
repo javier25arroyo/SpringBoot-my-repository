@@ -42,7 +42,7 @@ collection:
         meta:
           id: req_7663d1603f9742519a43b2fe4f376fdf
           created: 1749845172650
-          modified: 1749928748925
+          modified: 1749965818211
           isPrivate: false
           sortKey: -1749817326367
         method: POST
@@ -50,13 +50,10 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "name": "Monitor Gaming",
+              "name": "Monitor",
               "description": "Monitor 27' 144Hz IPS",
               "price": 299.99,
-              "stock": 25,
-              "category": {
-                "id": 2
-              }
+              "stock": 25
             }
         parameters:
           - id: pair_e66a5388ca314d76a4ed7d73ad927552
@@ -83,7 +80,7 @@ collection:
         meta:
           id: req_7625ca5e5738405280c8bdc3d7e4ff38
           created: 1749845180974
-          modified: 1749928625582
+          modified: 1749965833656
           isPrivate: false
           sortKey: -1749845180974
         method: PUT
@@ -91,7 +88,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "name": "Laptop Gaming Pro",
+              "name": "Laptop  Pro",
               "description": "Laptop gaming actualizada",
               "price": 1499.99,
               "stock": 15,
@@ -121,7 +118,7 @@ collection:
         meta:
           id: req_5f1441668bff4e4185aca7229b4fcfd6
           created: 1749845183429
-          modified: 1749928644014
+          modified: 1749949490116
           isPrivate: false
           sortKey: -1749845183429
         method: PATCH
@@ -132,6 +129,10 @@ collection:
               "price": 1399.99,
               "stock": 20
             }
+        parameters:
+          - id: pair_3f9e45226f2d4ca8a075b2f14a16482f
+            name: req_7625ca5e5738405280c8bdc3d7e4ff38
+            disabled: false
         headers:
           - name: Content-Type
             value: application/json
@@ -149,12 +150,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.base_url }}products/1"
+      - url: "{{ _.base_url }}products/3"
         name: Delete Products
         meta:
           id: req_bf80d969588a4e6fb1e104424833f691
           created: 1749845185491
-          modified: 1749928490838
+          modified: 1749967262860
           isPrivate: false
           sortKey: -1749845185491
         method: DELETE
@@ -217,7 +218,7 @@ collection:
         meta:
           id: req_dc3964553c4345dbb4054b7b2456281d
           created: 1749845547644
-          modified: 1749928722519
+          modified: 1749965935468
           isPrivate: false
           sortKey: -1749845547644
         method: POST
@@ -225,8 +226,8 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "nombre": "Periféricos",
-              "descripcion": "Accesorios y dispositivos para computadoras"
+              "nombre": "Movil",
+              "descripcion": "Celular IPhone 15Pro"
             }
         headers:
           - name: Content-Type
@@ -250,7 +251,7 @@ collection:
         meta:
           id: req_0efd310debe641ceb1fc5af6895f5202
           created: 1749845550714
-          modified: 1749928523733
+          modified: 1749965715395
           isPrivate: false
           sortKey: -1749845550714
         method: PUT
@@ -258,7 +259,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "nombre": "Electrónicos Gaming",
+              "nombre": "Electrónicos",
               "descripcion": "Productos electrónicos para gaming"
             }
         headers:
@@ -283,7 +284,7 @@ collection:
         meta:
           id: req_597f81edd04444678bcb9bc549aebc56
           created: 1749845552342
-          modified: 1749928552560
+          modified: 1749965753433
           isPrivate: false
           sortKey: -1749845552342
         method: PATCH
@@ -291,8 +292,36 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "descripcion": "Nueva descripción para la categoría"
+              "descripcion": "Descripción nueva para la categoría"
             }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_e3c36c3c091e47d09644c290127f48b8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}categories/3"
+        name: Delete Category
+        meta:
+          id: req_1720cd0511734328be34b4510820488c
+          created: 1749845554471
+          modified: 1749965963937
+          isPrivate: false
+          sortKey: -1749845554471
+        method: DELETE
+        body:
+          mimeType: application/json
         headers:
           - name: Content-Type
             value: application/json

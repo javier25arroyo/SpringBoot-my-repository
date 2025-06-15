@@ -2,7 +2,6 @@ package com.project.demo.rest.category;
 
 import com.project.demo.logic.entity.category.Category;
 import com.project.demo.logic.entity.category.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,9 +14,11 @@ import java.util.Optional;
 @RequestMapping("/categories")
 public class CategoryRestController {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
+    public CategoryRestController(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -29,13 +30,9 @@ public class CategoryRestController {
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
-        Optional<Category> category = categoryRepository.findById(id);
-
-        if (category.isPresent()) {
-            return ResponseEntity.ok(category.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return categoryRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -96,14 +93,14 @@ public class CategoryRestController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
             try {
                 categoryRepository.deleteById(id);
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok("Delete category successful");
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Delete category failed");
             }
         } else {
             return ResponseEntity.notFound().build();
