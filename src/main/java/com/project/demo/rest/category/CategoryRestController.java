@@ -67,30 +67,6 @@ public class CategoryRestController {
         }
     }
 
-    @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<Category> patchCategory(@PathVariable Long id, @RequestBody Category categoryDetails) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()) {
-            Category category = optionalCategory.get();
-            if (categoryDetails.getNombre() != null) {
-                category.setNombre(categoryDetails.getNombre());
-            }
-            if (categoryDetails.getDescripcion() != null) {
-                category.setDescripcion(categoryDetails.getDescripcion());
-            }
-            try {
-                Category updatedCategory = categoryRepository.save(category);
-                return ResponseEntity.ok(updatedCategory);
-            } catch (Exception e) {
-                return ResponseEntity.badRequest().build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
