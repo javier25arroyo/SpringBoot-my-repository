@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.project.demo.logic.entity.auth.JwtServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-06-22T20:46:23" hostname="devbox" time="0.162">
+  <properties/>
+  <testcase name="isTokenValid()" classname="com.project.demo.logic.entity.auth.JwtServiceTest" time="0.104"/>
+  <testcase name="generateTokenWithExtraClaims()" classname="com.project.demo.logic.entity.auth.JwtServiceTest" time="0.011"/>
+  <testcase name="getExpirationTime()" classname="com.project.demo.logic.entity.auth.JwtServiceTest" time="0.003"/>
+  <testcase name="extractUsername()" classname="com.project.demo.logic.entity.auth.JwtServiceTest" time="0.006"/>
+  <testcase name="isTokenValid_invalidUsername()" classname="com.project.demo.logic.entity.auth.JwtServiceTest" time="0.007"/>
+  <testcase name="extractClaim()" classname="com.project.demo.logic.entity.auth.JwtServiceTest" time="0.007"/>
+  <testcase name="isTokenExpired()" classname="com.project.demo.logic.entity.auth.JwtServiceTest" time="0.01"/>
+  <testcase name="generateToken()" classname="com.project.demo.logic.entity.auth.JwtServiceTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

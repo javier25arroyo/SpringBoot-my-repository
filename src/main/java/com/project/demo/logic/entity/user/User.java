@@ -7,12 +7,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
+import java.util.Collections; // Import for Collections.emptyList()
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "user")
+@Table(name = "`user`") // Quoted table name
 @Entity
 public class User implements UserDetails {
     @Id
@@ -35,7 +37,11 @@ public class User implements UserDetails {
     private Date updatedAt;
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY) // Authorities should be read-only, derived from role
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (role == null || role.getName() == null) {
+            return Collections.emptyList();
+        }
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
         return List.of(authority);
     }

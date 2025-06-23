@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.project.demo.logic.entity.auth.AuthenticationServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-06-22T20:46:22" hostname="devbox" time="0.589">
+  <properties/>
+  <testcase name="authenticate_userNotFound()" classname="com.project.demo.logic.entity.auth.AuthenticationServiceTest" time="0.578"/>
+  <testcase name="authenticate_success()" classname="com.project.demo.logic.entity.auth.AuthenticationServiceTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
